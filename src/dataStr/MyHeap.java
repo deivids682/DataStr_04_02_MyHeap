@@ -43,7 +43,7 @@ public class MyHeap <T> {
             //TODO add element
             heap[elementCounter] = element;
             elementCounter++;
-            //reHeapUp() TODO call when it is created
+            reHeapUp(elementCounter -1 );
             return true;
         }
     }
@@ -54,7 +54,7 @@ public class MyHeap <T> {
         } else {
             T temp = heap[0];
             heap[0] = heap[--elementCounter];
-            //reHeapDown() TODO call it when its created
+            reHeapDown(0);
             return temp;
         }
     }
@@ -113,6 +113,41 @@ public class MyHeap <T> {
 
     private void reHeapUp(int elementIndex){
 
+        if(elementIndex > 0) {
+            int parentIndex = (elementIndex - 2) / 2;
+
+            if(((Comparable<T>)heap[elementIndex]).compareTo(heap[parentIndex]) == 1){
+                swap(elementIndex, parentIndex);
+                reHeapUp(parentIndex);
+            }
+        }
+    }
+
+    private  void reHeapDown(int elementIndex) throws Exception{
+
+        if(elementIndex >= 0){
+            T leftCh = getLeftCh(elementIndex);
+            T rightCh = getRightCh(elementIndex);
+
+            if(((Comparable<T>)leftCh).compareTo(rightCh) == 1){
+                T elementValue = heap[elementIndex];
+
+                if(((Comparable<T>)elementValue).compareTo(leftCh) == 1){
+                    swap(elementIndex, getRightChIndex(elementIndex));
+                }
+            }else {
+                T elementValue = heap[elementIndex];
+                if(((Comparable<T>)elementValue).compareTo(rightCh) == 1){
+                    swap(elementIndex, getLeftChIndex(elementIndex));
+                }
+            }
+        }
+    }
+
+    private void swap(int index, int index2){
+        T tmp = heap[index];
+        heap[index] = heap[index2];
+        heap[index2] = tmp;
     }
 
 
